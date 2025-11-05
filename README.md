@@ -5,7 +5,7 @@ A comprehensive framework combining Physics-Informed Neural Networks (PINN) with
 ![Baffle Shape Evaluation](animations/spline_evolution_0.gif)
 ![Flow Changes with Sc Number](animations/velocity_field_0.gif)
 
-*Above: Baffle geometry evolution and flow field changes across Schmidt numbers (Sc 1-100)*
+*Above: Optimized baffle geometry evolution and flow field changes across Schmidt numbers (Sc 1-100)*
 
 ## 🚀 Overview
 
