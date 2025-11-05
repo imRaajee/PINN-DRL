@@ -16,6 +16,9 @@ FlexPINN integrates deep learning with physics-based modeling to optimize comple
 - **Real-time visualization** of geometry and flow field evolution
 
 ## 📁 Project Structure
+
 ├── flexpinn/ # Core PINN implementation
+
 ├── ga_optimization/ # Genetic Algorithm optimization
+
 ├── drl_optimization/ # Deep Reinforcement Learning optimization
