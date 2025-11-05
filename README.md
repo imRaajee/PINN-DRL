@@ -2,8 +2,8 @@
 
 A comprehensive framework combining Physics-Informed Neural Networks (PINN) with multi-objective optimization for enhanced mixer design.
 
-![Baffle Shape Evaluation](images/baffle_evolution.gif)
-![Flow Changes with Sc Number](images/flow_animation.gif)
+![Baffle Shape Evaluation](animations/spline_evolution.gif)
+![Flow Changes with Sc Number](animations/velocity_field.gif)
 
 *Above: Baffle geometry evolution and flow field changes across Schmidt numbers (Sc 1-100)*
 
