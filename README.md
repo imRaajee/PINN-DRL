@@ -1,6 +1,6 @@
-# PINN-DRL: Advanced Mixer Design Optimization
+# PINN-DRL: Advanced Micromixer Design Optimization
 
-A comprehensive framework combining Physics-Informed Neural Networks (PINN) with multi-objective optimization for enhanced mixer design.
+A comprehensive framework combining Physics-Informed Neural Networks (PINN) with multi-objective optimization for enhanced micromixer design.
 
 ![Baffle Shape Evaluation](animations/spline_evolution_0.gif)
 ![Flow Changes with Sc Number](animations/velocity_field_0.gif)
