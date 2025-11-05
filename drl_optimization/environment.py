@@ -120,4 +120,4 @@ class PINNEnvironment:
         if np.isnan(efficiency):
             efficiency = 0
 
-        return torch.clamp(torch.tensor(efficiency), 0.0, 1.0)
+        return torch.tensor(efficiency)
