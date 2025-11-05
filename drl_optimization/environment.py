@@ -43,29 +43,31 @@ class PINNEnvironment:
         mi = 1 - np.sqrt(np.sum(((concentration_matrix[:,0] - 0.5)/0.5)**2) / len(concentration_matrix))
         return mi
 
-    def pinn_evaluation(self, action, state):
-        """
-        Evaluate a single configuration using the trained PINN
+def pinn_evaluation(self, action, state):
+    """
+    Evaluate a single configuration using the trained PINN
+    
+    Args:
+        action: tensor of [pr1, pr2, pr3, Re]
+        state: tensor of [Sc]
         
-        Args:
-            action: tensor of [pr1, pr2, pr3, Re]
-            state: tensor of [Sc]
-            
-        Returns:
-            efficiency: scalar reward value
-        """
-        pr1, pr2, pr3, Re = action
-        Sc = state
+    Returns:
+        normalized_efficiency: ME/ME₀ where ME₀ is baseline with pr1=pr2=pr3=0
+    """
+    pr1, pr2, pr3, Re = action
+    Sc = state
 
+    def calculate_efficiency(pr1_val, pr2_val, pr3_val, Re_val, Sc_val):
+        """Helper function to calculate efficiency for given parameters"""
         # Create input points for PINN evaluation
         # Inlet evaluation points
         xi = np.arange(0.0, 1.0, 0.1)
         yi = np.arange(1.5-0.0001, 1.5, 0.1)
-        p1 = np.arange(pr1-0.0001, pr1, 0.1)
-        p2 = np.arange(pr2-0.0001, pr2, 0.1)
-        p3 = np.arange(pr3-0.0001, pr3, 0.1)
-        re = np.arange(Re-0.0001, Re, 0.1)
-        sc = np.arange(Sc-0.0001, Sc, 0.1)
+        p1 = np.arange(pr1_val-0.0001, pr1_val, 0.1)
+        p2 = np.arange(pr2_val-0.0001, pr2_val, 0.1)
+        p3 = np.arange(pr3_val-0.0001, pr3_val, 0.1)
+        re = np.arange(Re_val-0.0001, Re_val, 0.1)
+        sc = np.arange(Sc_val-0.0001, Sc_val, 0.1)
 
         X, Y, P1, P2, P3, RE, SC = np.meshgrid(xi, yi, p1, p2, p3, re, sc)
         x = X.reshape(-1, 1)
@@ -81,11 +83,11 @@ class PINNEnvironment:
         # Outlet evaluation points
         xo = np.arange(7.0-0.0001, 7.0, 0.1)
         yo = np.arange(0.5, 1.5, 0.1)
-        p1 = np.arange(pr1-0.0001, pr1, 0.1)
-        p2 = np.arange(pr2-0.0001, pr2, 0.1)
-        p3 = np.arange(pr3-0.0001, pr3, 0.1)
-        re = np.arange(Re-0.0001, Re, 0.1)
-        sc = np.arange(Sc-0.0001, Sc, 0.1)
+        p1 = np.arange(pr1_val-0.0001, pr1_val, 0.1)
+        p2 = np.arange(pr2_val-0.0001, pr2_val, 0.1)
+        p3 = np.arange(pr3_val-0.0001, pr3_val, 0.1)
+        re = np.arange(Re_val-0.0001, Re_val, 0.1)
+        sc = np.arange(Sc_val-0.0001, Sc_val, 0.1)
 
         X, Y, P1, P2, P3, RE, SC = np.meshgrid(xo, yo, p1, p2, p3, re, sc)
         x = X.reshape(-1, 1)
@@ -98,7 +100,7 @@ class PINNEnvironment:
         XYpo = np.concatenate([x, y, p1, p2, p3, re, sc], axis=1)
         XYpo = torch.tensor(XYpo, dtype=torch.float32).to(device)
 
-        # PINN evaluation (assuming 'pinn' is available)
+        # PINN evaluation
         with torch.no_grad():
             # Note: You'll need to load your trained PINN model here
             # c = pinn.predict(XYpo)[2]  # Concentration at outlet
@@ -120,4 +122,18 @@ class PINNEnvironment:
         if np.isnan(efficiency):
             efficiency = 0
 
-        return torch.tensor(efficiency)
+        return efficiency
+
+    # Calculate current mixing efficiency (ME)
+    ME = calculate_efficiency(pr1, pr2, pr3, Re, Sc)
+    
+    # Calculate baseline mixing efficiency (ME₀) with zero pressure parameters
+    ME0 = calculate_efficiency(0.0, 0.0, 0.0, Re, Sc)
+    
+    # Calculate normalized efficiency
+    if ME0 > 0:
+        normalized_efficiency = ME / ME0
+    else:
+        normalized_efficiency = 0.0
+    
+    return torch.tensor(normalized_efficiency)
