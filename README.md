@@ -17,8 +17,8 @@ FlexPINN integrates deep learning with physics-based modeling to optimize comple
 
 ## 📁 Project Structure
 
-├── flexpinn/ # Core PINN implementation
+├── flexpinn/ **Core PINN implementation**
 
-├── ga_optimization/ # Genetic Algorithm optimization
+├── ga_optimization/ **Genetic Algorithm optimization**
 
-├── drl_optimization/ # Deep Reinforcement Learning optimization
+├── drl_optimization/ **Deep Reinforcement Learning optimization**
