@@ -10,12 +10,6 @@ A flexible Physics-Informed Neural Network (PINN) framework for optimizing mixer
 - **`flex_pinn.py`** - Main PINN training class with adaptive weighting
 - **`losses.py`** - Physics, boundary condition, and penalty loss functions
 
-### Geometry & Data Generation:
-- **`collocation_points.py`** - Domain point generation with cubic spline interpolation
-- **`baffles.py`** - Baffle geometry and normal vector generation  
-- **`boundary_conditions_and_penalty_sections.py`** - BC points and penalty sections
-- **`data_aggregation.py`** - Data preparation and tensor conversion
-
 ### Execution Scripts:
 - **`main_pinn.py`** - Main training pipeline
 - **`main_bc_baffles.py`** - Boundary condition generation
